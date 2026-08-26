@@ -1,0 +1,6 @@
+fonts
+fonts/*
+*.swp
+output.png
+*.png
+*.mp4
