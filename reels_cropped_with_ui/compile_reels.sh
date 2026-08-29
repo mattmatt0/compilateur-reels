@@ -12,16 +12,24 @@ do
 	echo $video
 	duree_video=$(ffprobe -v 0 -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ${video} | tr -d '\r')
 	offset=$(echo "$offset + $duree_video - 1" | bc)
-	filter_command="${filter_command}[vtr${id_video}][${id_next_video}:v]xfade=transition=slideup:duration=1:offset=${offset} [vtr${id_next_video}] ;"
-	filter_command="${filter_command}[atr${id_video}][$id_next_video:a]acrossfade=d=1 [atr$id_next_video];"
+	filter_command="${filter_command}[vtr${id_video}][${id_next_video}:v]xfade=transition=slideup:duration=1:offset=${offset}[vtr${id_next_video}];"
+	filter_command="${filter_command}[atr${id_video}][$id_next_video:a]acrossfade=d=1[atr$id_next_video];"
 done
 
-filter_command="${filter_command}[vtr${id_next_video}][0:v] overlay=0:0[v_final];"
+filter_command="${filter_command}[vtr${id_next_video}][0:v]overlay=0:0[v_final];"
 filter_command="${filter_command}[atr${id_next_video}]anull[a_final]"
 
+inputs=""
+for id_video in $(seq $nb_videos)
+do
+	inputs="$inputs -i $id_video.mp4"
+
+done
 
 	
+final_command="ffmpeg -y -i ../template_fixe.png $inputs -filter_complex $filter_command -map [v_final] -map [a_final] ../compil_portaits.mp4"
 set -o xtrace
-ffmpeg -y -i ../template_fixe.png -i 1.mp4 -i 2.mp4 -i 3.mp4 -filter_complex "$filter_command" -map "[v_final]" -map "[a_final]" ../compil_portrait.mp4
 
-ffplay -y 1080 ../compil_portrait.mp4
+$final_command
+
+#ffplay -y 1080 ../compil_portrait.mp4
