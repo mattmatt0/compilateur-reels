@@ -5,3 +5,5 @@ output.png
 *.png
 *.mp4
 *.txt
+!infos_uis/Old/template.txt
+
