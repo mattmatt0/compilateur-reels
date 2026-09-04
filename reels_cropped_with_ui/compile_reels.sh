@@ -27,7 +27,7 @@ do
 done
 
 	
-final_command="ffmpeg -y -i ../template_fixe.png $inputs -filter_complex $filter_command -map [v_final] -map [a_final] ../compil_portaits.mp4"
+final_command="ffmpeg -y -i ../template_fixe.png $inputs -filter_complex $filter_command -map [v_final] -map [a_final] ../compil_portrait.mp4"
 set -o xtrace
 
 $final_command
