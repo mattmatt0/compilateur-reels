@@ -1,3 +1,4 @@
+UI_FONT="../fonts/Instagram Sans.ttf"
 genere_overlay ()
 {
 	file=$1
@@ -8,9 +9,9 @@ genere_overlay ()
 	PP=$file.png
 	# Redimensionnement de la pdp
 	magick $PP\
-		-resize 64x64 \
 		-gravity center \
-		-extent 84x84 \
+		-extent "%[fx:h<w?h:w]x%[fx:h<w?h:w]" \
+		-resize 84x84 \
 		pdp.png
 
 	# Bordures rondes
@@ -32,10 +33,10 @@ genere_overlay ()
 
 	magick avec_username.png -gravity center -font "../fonts/Instagram Sans.ttf" -pointsize 30 -fill white -annotate +415+500 "$NB_LIKES" avec_nb_commentaires.png 
 
-	magick avec_nb_commentaires.png -gravity center -font "../fonts/Instagram Sans.ttf" -pointsize 30 -fill white -annotate +415+310 "$NB_COMS" avec_nb_commentaires.png 
+	magick avec_nb_commentaires.png -gravity center -font "$UI_FONT" -pointsize 30 -fill white -annotate +415+310 "$NB_COMS" avec_nb_commentaires.png 
 
 
-	magick avec_nb_commentaires.png -font "../fonts/Instagram Sans.ttf" -pointsize 35 -fill white -annotate +95+1770 "$DESCRIPTION" ../uis/$file.png
+	magick avec_nb_commentaires.png -font "$UI_FONT" -pointsize 35 -fill white -annotate +95+1770 "$DESCRIPTION" ../uis/$file.png
 
 	
 
